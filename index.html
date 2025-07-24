@@ -183,6 +183,40 @@
       0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
       100% { transform: translateY(-400px) rotate(-45deg); opacity: 0; }
     }
+
+    .burst-heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      transform: rotate(-45deg);
+      animation: burst 1s ease-out forwards;
+      z-index: 20;
+    }
+
+    .burst-heart::before,
+    .burst-heart::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background: inherit;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .burst-heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .burst-heart::after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes burst {
+      0% { transform: scale(1) rotate(-45deg); opacity: 1; }
+      100% { transform: scale(2) translateY(-150px) rotate(-45deg); opacity: 0; }
+    }
   </style>
 </head>
 <body>
@@ -193,7 +227,7 @@
         <div class="heart"></div>
       </div>
       <div class="card-face back">
-        <h1>Te amo para siempre Cele 💖</h1>
+        <h1>Te amo para siempre Cele te deseo lo mejor 💖</h1>
       </div>
     </div>
   </div>
@@ -223,11 +257,25 @@
       }
     }
 
+    function burstHearts(container, count = 30) {
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'burst-heart';
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        heart.style.background = color;
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = Math.random() * 100 + '%';
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      }
+    }
+
     function openCard(scene) {
       const card = scene.querySelector('.card');
       card.classList.toggle('opened');
       if (card.classList.contains('opened')) {
         createSparkles(card);
+        burstHearts(document.body);
       }
     }
   </script>
